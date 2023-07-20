@@ -7,6 +7,7 @@ typeArea.disabled = true;
 btn.addEventListener('click',(e)=>{
         if(btn.textContent === 'Start'){
             playGame();
+            typeArea.value = "";
             typeArea.disabled = false;
         }else if(btn.textContent === 'Done'){
             typeArea.disabled = true;
@@ -17,12 +18,12 @@ btn.addEventListener('click',(e)=>{
 
 function endPlay(){
     const date = new Date();
-    game.new = date.getTime();
+    game.end = date.getTime();
     const totalTime = ((game.end-game.start)/1000);
     game.user = typeArea.value;
     const correct = checkResult();
     main.style.borderColor = 'white';
-    main.innerHTML = `You typed Time:${totalTime}`;
+    main.innerHTML = `Time:${totalTime} Score:${correct.score} out of ${correct.total}`;
     btn.textContent = 'Start';
 }
 
@@ -30,6 +31,13 @@ function endPlay(){
 function checkResult(){
     let val1 = game.arrText.split(" ");
     let val2 = game.user.split(" ");
+    let score = 0;
+    val1.forEach((word,index)=>{
+        if(word === val2[index]){
+            score++;
+        }
+    })
+    return {score:score,total:val1.length}
 }
 
 
